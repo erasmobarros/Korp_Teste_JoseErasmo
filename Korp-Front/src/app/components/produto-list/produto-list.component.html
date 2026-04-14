@@ -1,0 +1,56 @@
+<div class="container" style="padding: 20px;">
+  <h2>📦 Cadastro de Produtos</h2>
+
+  <mat-card style="padding: 20px; margin-bottom: 20px;">
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <mat-form-field appearance="outline" style="flex: 2;">
+        <mat-label>Descrição</mat-label>
+        <input matInput [(ngModel)]="novoProduto.descricao" name="descricao">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="flex: 1;">
+        <mat-label>Saldo</mat-label>
+        <input matInput type="number" [(ngModel)]="novoProduto.saldo" name="saldo">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" style="height: 50px;" (click)="cadastrar()">
+        ➕ Cadastrar
+      </button>
+    </div>
+  </mat-card>
+
+  <hr>
+
+  <h3>📝 Produtos Cadastrados</h3>
+  <table mat-table [dataSource]="produtos" class="mat-elevation-z8" style="width: 100%;">
+    
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let p"> {{p.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="descricao">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let p"> {{p.descricao}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="saldo">
+      <th mat-header-cell *matHeaderCellDef> Saldo Atual </th>
+      <td mat-cell *matCellDef="let p"> 
+        <strong>{{p.saldo}}</strong> 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef> Ações </th>
+      <td mat-cell *matCellDef="let p">
+        <button mat-icon-button color="warn" (click)="excluir(p.id)">
+          🗑️
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+    <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
+  </table>
+</div>
