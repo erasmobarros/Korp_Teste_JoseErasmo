@@ -34,11 +34,6 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<FaturamentoContext>();
-    
-    // 👇 A OPÇÃO NUCLEAR: Destrói qualquer rastro do banco velho
-    db.Database.EnsureDeleted(); 
-    
-    // 👇 Cria um banco zerado, lendo seu Model com a coluna ClienteNome
     db.Database.EnsureCreated(); 
 }
 
