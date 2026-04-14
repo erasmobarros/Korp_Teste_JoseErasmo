@@ -43,3 +43,15 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
+# =========================
+# BACKEND (C# e Banco de Dados)
+# =========================
+
+# Arquivos do Banco de Dados SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Pastas de compilação do C# (MUITO IMPORTANTE)
+[Bb]in/
+[Oo]bj/
