@@ -146,3 +146,4 @@ C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\FaturamentoSe
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\FaturamentoService\obj\Debug\net10.0\FaturamentoService.pdb
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\FaturamentoService\obj\Debug\net10.0\FaturamentoService.genruntimeconfig.cache
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\FaturamentoService\obj\Debug\net10.0\ref\FaturamentoService.dll
+C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\FaturamentoService\obj\Debug\net10.0\FaturamentoService.sourcelink.json

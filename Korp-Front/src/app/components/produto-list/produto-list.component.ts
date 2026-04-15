@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; 
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card'; // <--- Adicionado o MatCardModule aqui!
+import { MatCardModule } from '@angular/material/card'; 
 
 import { ProdutoService } from '../../services/produto.service';
 import { Produto } from '../../models/produto.model';
@@ -30,7 +30,7 @@ import { Produto } from '../../models/produto.model';
     MatButtonModule,
     MatIconModule,       
     MatSnackBarModule,    
-    MatCardModule        // <--- E registrado aqui dentro também!
+    MatCardModule        
   ]
 })
 export class ProdutoListComponent implements OnInit {
@@ -57,7 +57,7 @@ export class ProdutoListComponent implements OnInit {
     });
   }
 
-  // Função para mostrar a mensagem de sucesso
+  
   private mostrarSucesso(mensagem: string) {
     this.snackBar.open(mensagem, 'Fechar', {
       duration: 3000,
@@ -67,21 +67,21 @@ export class ProdutoListComponent implements OnInit {
   }
 
  cadastrar() {
-    // 1. Rastro para vermos no F12 se o botão pelo menos foi clicado
+    
     console.log('Botão Cadastrar clicado! Dados na memória:', this.novoProduto);
 
-    // 2. Validação com aviso na tela
+    
     if (!this.novoProduto.descricao || this.novoProduto.descricao.trim() === '') {
       this.snackBar.open('Atenção: A descrição do produto é obrigatória!', 'OK', { duration: 3000 });
-      return; // Para a função aqui
+      return; 
     }
 
     if (this.novoProduto.saldo == null || this.novoProduto.saldo < 0) {
       this.snackBar.open('Atenção: O saldo não pode ser negativo ou vazio!', 'OK', { duration: 3000 });
-      return; // Para a função aqui
+      return; 
     }
 
-    // 3. Comunicação com o servidor (Agora pegando erros também)
+   
     this.produtoService.salvar(this.novoProduto).subscribe({
       next: () => {
         this.mostrarSucesso('Produto cadastrado com sucesso!');

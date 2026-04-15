@@ -146,3 +146,4 @@ C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\EstoqueServic
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\EstoqueService\obj\Debug\net10.0\EstoqueService.pdb
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\EstoqueService\obj\Debug\net10.0\EstoqueService.genruntimeconfig.cache
 C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\EstoqueService\obj\Debug\net10.0\ref\EstoqueService.dll
+C:\Users\ejose\Downloads\Faculdade\Programas\Korp_Teste_JoseErasmo\EstoqueService\obj\Debug\net10.0\EstoqueService.sourcelink.json

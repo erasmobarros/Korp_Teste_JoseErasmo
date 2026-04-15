@@ -1,5 +1,3 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
 # Compiled output
 /dist
 /tmp
@@ -11,7 +9,7 @@
 npm-debug.log
 yarn-error.log
 
-# IDEs and editors
+# IDEs e editors
 .idea/
 .project
 .classpath
@@ -29,7 +27,7 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
-# Miscellaneous
+# Angular
 /.angular/cache
 .sass-cache/
 /connect.lock
@@ -42,10 +40,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
-
-# =========================
-# BACKEND (C# e Banco de Dados)
-# =========================
 
 # Arquivos do Banco de Dados SQLite
 *.db

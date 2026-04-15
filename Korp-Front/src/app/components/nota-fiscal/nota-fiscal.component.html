@@ -74,19 +74,48 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="acoes">
-      <th mat-header-cell *matHeaderCellDef> Ações </th>
-      <td mat-cell *matCellDef="let n">
-        <button mat-stroked-button color="primary" 
-                *ngIf="n.status === 'Aberta'" 
-                (click)="imprimir(n.id)"
-                [disabled]="carregando">
-          🖨️ Imprimir
-        </button>
+    <ng-container matColumnDef="produtos">
+      <th mat-header-cell *matHeaderCellDef> Produtos Vendidos </th>
+      <td mat-cell *matCellDef="let nota">
+        <ul style="margin: 0; padding-left: 20px; font-size: 13px;">
+          <li *ngFor="let item of nota.itens">
+            <strong>{{ item.quantidade }}x</strong> {{ item.descricao }}
+          </li>
+        </ul>
+        <span *ngIf="!nota.itens || nota.itens.length === 0" style="color: gray; font-size: 12px;">
+          Sem itens
+        </span>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['id', 'clienteNome', 'status', 'acoes']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'clienteNome', 'status', 'acoes'];"></tr>
+  <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef> Ações </th>
+      <td mat-cell *matCellDef="let n">
+        
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-start; padding: 5px 0;">
+          
+          <button mat-stroked-button 
+                  color="primary" 
+                  (click)="imprimir(n.id)"
+                  [disabled]="n.status !== 'Aberta' || carregando"
+                  style="width: 120px; text-align: left;">
+            <mat-icon>print</mat-icon> 
+            {{ n.status === 'Aberta' ? 'Imprimir' : 'Impresso' }}
+          </button>
+
+          <button mat-button 
+                  color="warn" 
+                  (click)="excluirNota(n.id)"
+                  style="width: 120px; text-align: left; font-size: 12px;">
+            <mat-icon>delete</mat-icon> Excluir
+          </button>
+
+        </div>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+    <tr mat-row *matRowDef="let row; columns: colunas;"></tr>
   </table>
 </div>

@@ -1,17 +1,18 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon'; 
 
-// --- IMPORTAÇÕES DO ANGULAR MATERIAL ---
+
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card';           // Adicionado para o erro NG8001
-import { MatFormFieldModule } from '@angular/material/form-field'; // Essencial para mat-form-field
-import { MatInputModule } from '@angular/material/input';         // Essencial para matInput
-// ---------------------------------------
+import { MatCardModule } from '@angular/material/card';           
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input';         
+
 
 import { NotaFiscalService } from '../../services/nota-fiscal.service';
 import { ProdutoService } from '../../services/produto.service';
@@ -29,9 +30,10 @@ import { NotaFiscal } from '../../models/nota-fiscal.model';
     MatButtonModule, 
     MatSelectModule, 
     MatProgressSpinnerModule,
-    MatCardModule,      // Registrado aqui
-    MatFormFieldModule, // Registrado aqui
-    MatInputModule      // Registrado aqui
+    MatCardModule,      
+    MatFormFieldModule, 
+    MatInputModule,
+    MatIconModule 
   ],
   templateUrl: './nota-fiscal.component.html'
 })
@@ -40,7 +42,8 @@ export class NotaFiscalComponent implements OnInit {
   produtosDisponiveis: Produto[] = [];
   carregando: boolean = false;
   
-  // Para a nova nota
+  colunas: string[] = ['id', 'clienteNome', 'status', 'produtos', 'acoes'];
+  
   novaNota: any = { clienteNome: '', itens: [] };
   itemTemp: any = { produtoId: 0, quantidade: 1 };
 
@@ -67,16 +70,12 @@ export class NotaFiscalComponent implements OnInit {
   }
 
   adicionarItem() {
-    // 1. Garantir que o ID seja tratado como número
     const idSelecionado = Number(this.itemTemp.produtoId);
-    
-    // 2. Procurar o produto na lista
     const prod = this.produtosDisponiveis.find(p => p.id === idSelecionado);
 
     console.log('Tentando adicionar produto ID:', idSelecionado);
     
     if (prod) {
-      // 3. Adicionar à lista criando um NOVO array (ajuda o Angular a atualizar a tela)
       this.novaNota.itens = [
         ...this.novaNota.itens, 
         { 
@@ -86,10 +85,7 @@ export class NotaFiscalComponent implements OnInit {
         }
       ];
 
-      // 4. Resetar os campos temporários
       this.itemTemp = { produtoId: 0, quantidade: 1 };
-      
-      // 5. Forçar atualização da tela
       this.cdr.detectChanges();
       
       this.snackBar.open('Produto adicionado à lista!', 'OK', { duration: 2000 });
@@ -126,21 +122,49 @@ export class NotaFiscalComponent implements OnInit {
 
   imprimir(id: number) {
     this.carregando = true;
+    this.cdr.detectChanges(); 
     
-    // Simula delay para o avaliador ver o Spinner funcionando
     setTimeout(() => {
       this.notaService.imprimir(id).subscribe({
         next: () => {
-          this.snackBar.open('Impressão realizada e estoque baixado!', 'Sucesso', { duration: 3000 });
+          this.snackBar.open('✅ Impressão realizada e estoque baixado!', 'Sucesso', { duration: 3000 });
           this.carregando = false;
           this.carregarNotas();
+          this.cdr.detectChanges(); 
         },
         error: (err) => {
-          console.error(err);
-          this.snackBar.open('Erro ao processar impressão.', 'Fechar', { duration: 3000 });
+          console.error('Erro detectado na comunicação com o Estoque:', err);
+          
+          this.snackBar.open(
+            '❌ A nota NÃO foi fechada! A quantidade vendida é maior que o saldo no estoque (ou o serviço está offline).', 
+            'Entendi', 
+            { 
+              duration: 6000, 
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom'
+            }
+          );
+          
           this.carregando = false;
+          this.cdr.detectChanges(); 
         }
       });
     }, 1500);
+  }
+
+  
+  excluirNota(id: number) {
+    if (confirm('Tem certeza que deseja excluir esta nota definitivamente?')) {
+      this.notaService.excluir(id).subscribe({
+        next: () => {
+          this.snackBar.open('Nota excluída com sucesso!', 'OK', { duration: 3000 });
+          this.carregarNotas(); 
+        },
+        error: (err) => {
+          console.error('Erro ao excluir nota:', err);
+          this.snackBar.open('Erro ao excluir a nota.', 'Fechar', { duration: 3000 });
+        }
+      });
+    }
   }
 }

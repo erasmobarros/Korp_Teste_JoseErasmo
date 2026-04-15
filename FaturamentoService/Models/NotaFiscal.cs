@@ -1,7 +1,7 @@
 public class NotaFiscal {
-    public int Id { get; set; } // O ID do banco já garante a numeração sequencial
+    public int Id { get; set; } 
     public string ClienteNome { get; set; } = "";
-    public string Status { get; set; } = "Aberta"; // Inicia como Aberta
+    public string Status { get; set; } = "Aberta"; 
     public List<ItemNotaFiscal> Itens { get; set; } = new();
 }
 

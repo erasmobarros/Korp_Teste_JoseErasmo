@@ -23,9 +23,7 @@ export class NotaFiscalService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  // Ajuste no imprimir: Usamos POST porque ele vai ALTERAR a nota para "Fechada"
-  // Se o seu backend devolver um JSON da nota atualizada, use NotaFiscal.
-  // Se o backend devolver um arquivo PDF, aí sim você usa o Blob.
+ 
   imprimir(id: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}/imprimir`, {}); 
   }

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  standalone: false // <-- ADICIONE ESTA LINHA AQUI
+  standalone: false 
 })
 export class AppComponent {
   title = 'Korp-Front';

@@ -22,26 +22,30 @@ public class ProdutosController : ControllerBase
         return Ok(produto);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduto(int id)
+    {
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null) return NotFound();
+
+        _context.Produtos.Remove(produto);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
+
     // Rota especial para baixar estoque que o Faturamento vai usar
     [HttpPut("{id}/baixar")]
     public async Task<IActionResult> BaixarEstoque(int id, [FromBody] int quantidade)
     {
         var produto = await _context.Produtos.FindAsync(id);
         if (produto == null) return NotFound();
+        
+        
         if (produto.Saldo < quantidade) return BadRequest("Saldo insuficiente");
 
         produto.Saldo -= quantidade;
         await _context.SaveChangesAsync();
-        return NoContent();
+        
+        return Ok(produto);
     }
-    [HttpDelete("{id}")]
-public async Task<IActionResult> DeleteProduto(int id)
-{
-    var produto = await _context.Produtos.FindAsync(id);
-    if (produto == null) return NotFound();
-
-    _context.Produtos.Remove(produto);
-    await _context.SaveChangesAsync();
-    return NoContent();
-}
 }

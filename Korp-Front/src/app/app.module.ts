@@ -7,13 +7,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProdutoListComponent } from './components/produto-list/produto-list.component';
 import { NotaFiscalComponent } from './components/nota-fiscal/nota-fiscal.component';
-
-
-
-// --- ADICIONE ESTAS DUAS IMPORTAÇÕES ---
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-// ---------------------------------------
+
 
 @NgModule({
   declarations: [
@@ -23,10 +19,10 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ProdutoListComponent, // Seu componente standalone
+    ProdutoListComponent, 
     NotaFiscalComponent, 
-    MatToolbarModule,     // <-- ADICIONE AQUI
-    MatButtonModule       // <-- ADICIONE AQUI
+    MatToolbarModule,     
+    MatButtonModule       
   ],
   providers: [
     provideHttpClient(withFetch())

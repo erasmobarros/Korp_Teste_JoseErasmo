@@ -5,7 +5,7 @@ import { NotaFiscalComponent } from './components/nota-fiscal/nota-fiscal.compon
 
 const routes: Routes = [
   { path: 'produtos', component: ProdutoListComponent },
-  { path: 'notas', component: NotaFiscalComponent }, // CERTIFIQUE-SE QUE ESTÁ ASSIM
+  { path: 'notas', component: NotaFiscalComponent },
   { path: '', redirectTo: '/produtos', pathMatch: 'full' }
 ];
 
