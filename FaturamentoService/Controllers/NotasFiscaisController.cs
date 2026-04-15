@@ -46,22 +46,45 @@ namespace FaturamentoService.Controllers
             using var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:5121/");
 
+            // 🔥 Flag para saber se algum produto zerou
+            bool estoqueZerou = false;
+
             if (nota.Itens != null && nota.Itens.Any())
             {
                 foreach (var item in nota.Itens)
                 {
+                    // 1. Faz a baixa no estoque
                     var response = await httpClient.PutAsJsonAsync($"api/produtos/{item.ProdutoId}/baixar", item.Quantidade);
                     response.EnsureSuccessStatusCode(); 
+
+                    // 2. Lê a resposta do EstoqueService para ver quanto sobrou
+                    var produtoAtualizado = await response.Content.ReadFromJsonAsync<ProdutoEstoqueDTO>();
+                    
+                    // 3. Se sobrou 0, ativamos o alerta!
+                    if (produtoAtualizado != null && produtoAtualizado.Saldo == 0)
+                    {
+                        estoqueZerou = true;
+                    }
                 }
             }
 
             nota.Status = "Fechada";
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Nota impressa e estoque atualizado com sucesso!", status = nota.Status });
+            // 🔥 Se zerou, mandamos um retorno especial para o Angular!
+            if (estoqueZerou)
+            {
+                return Ok(new { 
+                    message = "Nota impressa com sucesso! ATENÇÃO: Um ou mais produtos esgotaram no estoque.", 
+                    status = nota.Status, 
+                    alertaEstoque = true // O Angular vai ler isso aqui!
+                });
+            }
+
+            return Ok(new { message = "Nota impressa e estoque atualizado com sucesso!", status = nota.Status, alertaEstoque = false });
         }
 
-       [HttpDelete("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotaFiscal(int id)
         {
             var nota = await _context.NotasFiscais
@@ -75,10 +98,16 @@ namespace FaturamentoService.Controllers
                 _context.RemoveRange(nota.Itens);
             }
 
-             _context.NotasFiscais.Remove(nota);
+            _context.NotasFiscais.Remove(nota);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-    } 
-} 
+    }
+
+    // 🔥 Classe auxiliar para ler apenas o Saldo que vem lá do EstoqueService
+    public class ProdutoEstoqueDTO
+    {
+        public int Saldo { get; set; }
+    }
+}
